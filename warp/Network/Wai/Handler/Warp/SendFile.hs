@@ -123,7 +123,7 @@ readSendFile buf siz send fid off0 len0 hook headers =
     hn <- packHeader buf siz send hook headers 0
     let room = siz - hn
         buf' = buf `plusPtr` hn
-    strictPutStrLn $ "pread64 " <> (show $ mini room len0) <> " " <> show off0
+    strictPutStrLn $ "pread64 " <> (show path) <> " " <> show fd <> (show $ mini room len0) <> " " <> show off0
     n <- positionRead fd buf' (mini room len0) off0
     bufferIO buf (hn + n) send
     hook
@@ -140,7 +140,7 @@ readSendFile buf siz send fid off0 len0 hook headers =
     loop fd len off
       | len <= 0  = return ()
       | otherwise = do
-          strictPutStrLn $ "pread64' " <> (show $ mini siz len) <> " " <> show off
+          strictPutStrLn $ "pread64' " <> (show path) <> " " <> show fd <> (show $ mini siz len) <> " " <> show off
           n <- positionRead fd buf (mini siz len) off
           bufferIO buf n send
           let n' = fromIntegral n
